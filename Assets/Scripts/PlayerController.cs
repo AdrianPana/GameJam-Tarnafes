@@ -50,27 +50,45 @@ public class PlayerController : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        if (!collisionChecker.getCollisionState())
+        if (!collisionChecker.getCollisionState() || collisionChecker.isPushable)
         {
-
-            if (currentDirection.y > 0 && !isMoving)
+            IPushable box = collisionChecker?.collidedObject?.GetComponent<IPushable>();
+            if (box != null)
             {
-                StartCoroutine(MovePlayer(Vector3.up));
+                if (box.Push(currentDirection))
+                {
+                    this.transform.Find("CollisionChecker").transform.position = this.transform.position;
+                    Move();
+                }
             }
-            if (currentDirection.y < 0 && !isMoving)
+            else
             {
-                StartCoroutine(MovePlayer(Vector3.down));
-            }
-            if (currentDirection.x > 0 && !isMoving)
-            {
-                StartCoroutine(MovePlayer(Vector3.right));
-            }
-            if (currentDirection.x < 0 && !isMoving)
-            {
-                StartCoroutine(MovePlayer(Vector3.left));
+                this.transform.Find("CollisionChecker").transform.position = this.transform.position;
+                Move();
             }
         }
     }
+    public void Move()
+    {
+        if (currentDirection.y > 0 && !isMoving)
+        {
+            StartCoroutine(MovePlayer(Vector3.up));
+        }
+        if (currentDirection.y < 0 && !isMoving)
+        {
+            StartCoroutine(MovePlayer(Vector3.down));
+        }
+        if (currentDirection.x > 0 && !isMoving)
+        {
+            StartCoroutine(MovePlayer(Vector3.right));
+        }
+        if (currentDirection.x < 0 && !isMoving)
+        {
+            StartCoroutine(MovePlayer(Vector3.left));
+        }
+    }
+
+
 
     private IEnumerator MovePlayer(Vector3 direction)
     {

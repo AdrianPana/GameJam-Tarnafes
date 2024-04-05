@@ -7,6 +7,10 @@ public class CollisionChecker : MonoBehaviour
     [SerializeField]
     private bool inCollision;
     private GameObject collidesWith;
+    [SerializeField]
+    public bool isPushable;
+    [SerializeField]
+    public GameObject collidedObject = null;
 
     public GameObject getCollidesWith()
     {
@@ -32,11 +36,23 @@ public class CollisionChecker : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.gameObject.CompareTag("Pushable"))
+        {
+            isPushable = true;
+            collidedObject = other.gameObject;
+        }
+        else
+        {
+            isPushable = false;
+            collidedObject = null;
+        }
+        inCollision = true;
+
         if (!other.gameObject.CompareTag("Player"))
         {
             inCollision = true;
         }
-        inCollision = true;
+
         collidesWith = other.gameObject;
         {
             Debug.Log("Collided with anything");
@@ -45,6 +61,18 @@ public class CollisionChecker : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
+        if (other.gameObject.CompareTag("Pushable"))
+        {
+            isPushable = true;
+            collidedObject = other.gameObject;
+        }
+        else
+        {
+            isPushable = false;
+            collidedObject = null;
+        }
+        inCollision = true;
+
         if (!other.gameObject.CompareTag("Player"))
         {
             inCollision = true;
