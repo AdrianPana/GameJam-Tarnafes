@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private float timeToMove = 0.2f;
+    [SerializeField]
+    private float speed = 10.0f;
 
     void Start()
     {
@@ -25,6 +27,8 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Vector2 input = inputControls.BaseCharacter.Move.ReadValue<Vector2>();
+
+        transform.position = transform.position + new Vector3(input.x, input.y, 0) * speed * Time.deltaTime;
 
         //if (input.x != 0 && input.y != 0 && !newInput)
         //{
@@ -41,45 +45,45 @@ public class PlayerController : MonoBehaviour
         //else
         //{
         //    newInput = false;
-        currentDirection = input;
+        //currentDirection = input;
         //}
+        //StartCoroutine(MovePlayer(cu));
 
-        if (currentDirection.y > 0 && !isMoving)
-        {
-            StartCoroutine(MovePlayer(Vector3.up)); 
-        }
-        if (currentDirection.y < 0 && !isMoving)
-        {
-            StartCoroutine(MovePlayer(Vector3.down));
-        }
-        if (currentDirection.x > 0 && !isMoving)
-        {
-            StartCoroutine(MovePlayer(Vector3.right));
-        }
-        if (currentDirection.x < 0 && !isMoving)
-        {
-            StartCoroutine(MovePlayer(Vector3.left));
-        }
+        //if (currentDirection.y > 0 && !isMoving)
+        //{
+        //}
+        //if (currentDirection.y < 0 && !isMoving)
+        //{
+        //    StartCoroutine(MovePlayer(Vector3.down));
+        //}
+        //if (currentDirection.x > 0 && !isMoving)
+        //{
+        //    StartCoroutine(MovePlayer(Vector3.right));
+        //}
+        //if (currentDirection.x < 0 && !isMoving)
+        //{
+        //    StartCoroutine(MovePlayer(Vector3.left));
+        //}
     }
 
-    private IEnumerator MovePlayer(Vector3 direction)
-    {
-        isMoving = true;
+    //private IEnumerator MovePlayer(Vector3 direction)
+    //{
+    //    isMoving = true;
 
-        float elapsedTime = 0;
+    //    float elapsedTime = 0;
 
-        origPos = transform.position;
-        targetPos = origPos + direction;
+    //    origPos = transform.position;
+    //    targetPos = origPos + direction;
 
-        while (elapsedTime < timeToMove)
-        {
-            transform.position = Vector3.Lerp(origPos, targetPos, (elapsedTime / timeToMove));
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
+    //    while (elapsedTime < timeToMove)
+    //    {
+    //        transform.position = Vector3.Lerp(origPos, targetPos, (elapsedTime / timeToMove));
+    //        elapsedTime += Time.deltaTime;
+    //        yield return null;
+    //    }
 
-        transform.position = targetPos;
+    //    transform.position = targetPos;
 
-        isMoving = false;
-    }
+    //    isMoving = false;
+    //}
 }
