@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class EnemyController : MonoBehaviour
 {
-    public Animator animator;
-
-    private bool isMoving;
+    private bool isMoving = false;
     private Vector3 origPos, targetPos;
     private bool newInput = false;
 
-    PlayerInputActions inputControls;
+    private const int framesToWait = 20;
+    private int framesFromLastMove = 0;
+
+    // PlayerInputActions inputControls;
     private CollisionChecker collisionChecker;
     Vector2 currentDirection = Vector2.zero;
 
@@ -21,34 +22,72 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float speed = 10.0f;
 
-    public int hp = 3;
+    private bool checkCollidesWithPlayer()
+    {
+        GameObject collidesWith = collisionChecker.getCollidesWith();
+        if(collidesWith == null)
+        {
+            return false;
+        }
+        if (collidesWith.tag == "Player")
+        {
+            collidesWith.GetComponent<PlayerController>().TakeDamage();
+            return true;
+        }
+        return false;
+    }
 
     void Start()
     {
-        inputControls = new PlayerInputActions();
-        inputControls.Enable();
+        // inputControls = new PlayerInputActions();
+        // inputControls.Enable();
         collisionChecker = this.GetComponentInChildren<CollisionChecker>();
+    }
+
+    private Vector2 randomDirection()
+    {
+        System.Random random = new System.Random();
+        int direction = random.Next(0, 4);
+        // If collides with wall, try another direction
+        switch (direction)
+        {
+            case 0:
+                return new Vector2(0, 1);
+            case 1:
+                return new Vector2(0, -1);
+            case 2:
+                return new Vector2(1, 0);
+            case 3:
+                return new Vector2(-1, 0);
+            default:
+                return new Vector2(0, 0);
+        }
     }
 
     void Update()
     {
-        Vector2 input = inputControls.BaseCharacter.Move.ReadValue<Vector2>();
+        // Vector2 input = inputControls.BaseCharacter.Move.ReadValue<Vector2>();
 
+        if (framesFromLastMove < framesToWait)
+        {
+            framesFromLastMove++;
+            return;
+        }
+        if (framesFromLastMove == framesToWait)
+        {
+            framesFromLastMove = 0;
+        }
+
+        Vector2 input = randomDirection();
+        if(checkCollidesWithPlayer())
+        {
+            Debug.Log("Collides with player");
+        }
         //transform.position = transform.position + new Vector3(input.x, input.y, 0) * speed * Time.deltaTime;
         currentDirection = input;
         this.transform.Find("CollisionChecker").transform.position = targetPos +
                                             new Vector3(input.x, input.y, 0);
 
-        animator.SetFloat("Horizontal", input.x);
-        animator.SetFloat("Vertical", input.y);
-        animator.SetFloat("Speed", input.sqrMagnitude);
-
-        transform.localScale = new Vector3(input.x > 0 ? -1 : input.x < 0 ? 1 : transform.localScale.x, 1, 1);
-        Debug.Log(hp);
-        if(hp <= 0) {
-            Debug.Log("Player is dead");
-            Destroy(this.gameObject);
-        }
 
         if (!collisionChecker.getCollisionState())
         {
@@ -91,9 +130,5 @@ public class PlayerController : MonoBehaviour
         transform.position = targetPos;
 
         isMoving = false;
-    }
-
-    public void TakeDamage() {
-        hp--;
     }
 }
