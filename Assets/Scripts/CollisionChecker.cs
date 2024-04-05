@@ -6,6 +6,12 @@ public class CollisionChecker : MonoBehaviour
 {
     [SerializeField]
     private bool inCollision;
+    private GameObject collidesWith;
+
+    public GameObject getCollidesWith()
+    {
+        return collidesWith;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +36,11 @@ public class CollisionChecker : MonoBehaviour
         {
             inCollision = true;
         }
+        inCollision = true;
+        collidesWith = other.gameObject;
+        {
+            Debug.Log("Collided with anything");
+        }
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -44,5 +55,6 @@ public class CollisionChecker : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other)
     {
         inCollision = false;
+        collidesWith = null;
     }
 }
