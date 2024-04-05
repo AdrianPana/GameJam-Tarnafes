@@ -26,12 +26,19 @@ public class CollisionChecker : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        inCollision = true;
+        if (!other.gameObject.CompareTag("Player"))
+        {
+            inCollision = true;
+        }
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        inCollision = true;
+        if (!other.gameObject.CompareTag("Player"))
+        {
+            inCollision = true;
+        }
+
     }
 
     private void OnTriggerExit2D(Collider2D other)

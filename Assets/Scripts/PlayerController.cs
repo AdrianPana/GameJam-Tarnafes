@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public Animator animator;
+
     private bool isMoving;
     private Vector3 origPos, targetPos;
     private bool newInput = false;
@@ -35,6 +37,11 @@ public class PlayerController : MonoBehaviour
         this.transform.Find("CollisionChecker").transform.position = targetPos +
                                             new Vector3(input.x, input.y, 0);
 
+        animator.SetFloat("Horizontal", input.x);
+        animator.SetFloat("Vertical", input.y);
+        animator.SetFloat("Speed", input.sqrMagnitude);
+
+        transform.localScale = new Vector3(input.x > 0 ? -1 : input.x < 0 ? 1 : transform.localScale.x, 1, 1);
 
         if (!collisionChecker.getCollisionState())
         {
