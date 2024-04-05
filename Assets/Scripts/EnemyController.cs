@@ -8,7 +8,6 @@ public class EnemyController : MonoBehaviour
 {
     private bool isMoving = false;
     private Vector3 origPos, targetPos;
-    private bool newInput = false;
 
     private const int framesToWait = 20;
     private int framesFromLastMove = 0;
@@ -19,8 +18,6 @@ public class EnemyController : MonoBehaviour
 
     [SerializeField]
     private float timeToMove = 0.2f;
-    [SerializeField]
-    private float speed = 10.0f;
 
     private bool checkCollidesWithPlayer()
     {

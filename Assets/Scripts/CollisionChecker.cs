@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
+using UnityEngine.Tilemaps;
 
 public class CollisionChecker : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class CollisionChecker : MonoBehaviour
     public bool isPushable;
     [SerializeField]
     public GameObject collidedObject = null;
+    Tilemap tilemap;
 
     public GameObject getCollidesWith()
     {
@@ -21,12 +24,12 @@ public class CollisionChecker : MonoBehaviour
     void Start()
     {
         inCollision = false;
+        tilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(inCollision);
     }
 
     public bool getCollisionState()
@@ -46,17 +49,12 @@ public class CollisionChecker : MonoBehaviour
             isPushable = false;
             collidedObject = null;
         }
-        inCollision = true;
-
         if (!other.gameObject.CompareTag("Player"))
         {
             inCollision = true;
         }
 
         collidesWith = other.gameObject;
-        {
-            Debug.Log("Collided with anything");
-        }
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -84,5 +82,14 @@ public class CollisionChecker : MonoBehaviour
     {
         inCollision = false;
         collidesWith = null;
+    }
+
+    public void CenterOnCell()
+    {
+        //Vector3 worldPos = Camera.main.ScreenToWorldPoint(transform.position);
+        Vector3Int cell = tilemap.WorldToCell(transform.position);
+        Vector3 cellCenterPos = tilemap.GetCellCenterWorld(cell);
+
+        transform.position = cellCenterPos;
     }
 }
