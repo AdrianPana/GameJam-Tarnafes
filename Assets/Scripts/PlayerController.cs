@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 using UnityEngine.Windows;
 using UnityEngine.Tilemaps;
 using Unity.VisualScripting;
+using UnityEngine.Experimental.GlobalIllumination;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -293,6 +295,14 @@ public class PlayerController : MonoBehaviour
     {
         HeartsScript hearts = GameObject.Find("Hearts").GetComponent<HeartsScript>();
         hearts.UpdateHearts(hp);
+    }
+
+    public void MakeBrighterLight() 
+    {
+        Transform light = transform.GetChild(1);
+        light.GetComponent<UnityEngine.Rendering.Universal.Light2D>().pointLightOuterRadius = 3.11f;
+        light.GetComponent<UnityEngine.Rendering.Universal.Light2D>().pointLightInnerRadius = 1.0f;
+        
     }
 
     

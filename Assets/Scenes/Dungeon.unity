@@ -511,7 +511,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &792606672
 Transform:
   m_ObjectHideFlags: 0
@@ -521,7 +521,7 @@ Transform:
   m_GameObject: {fileID: 792606671}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 14.19, y: 0.01, z: 0.0060310364}
+  m_LocalPosition: {x: 14.19, y: 0.01, z: 0.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -892,6 +892,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 609ec2c05c5f04ed2a5a3d4e06b3869d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  torch: {fileID: 792606671}
 --- !u!1001 &1856795793
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1174,6 +1175,34 @@ PrefabInstance:
     - target: {fileID: 2945144947371431390, guid: a8cfbd3ad026f43159ed742fb2a39979, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6005020614201929521, guid: a8cfbd3ad026f43159ed742fb2a39979, type: 3}
+      propertyPath: m_Name
+      value: Light
+      objectReference: {fileID: 0}
+    - target: {fileID: 6005020614201929521, guid: a8cfbd3ad026f43159ed742fb2a39979, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6458937511514547088, guid: a8cfbd3ad026f43159ed742fb2a39979, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6458937511514547088, guid: a8cfbd3ad026f43159ed742fb2a39979, type: 3}
+      propertyPath: m_Intensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6458937511514547088, guid: a8cfbd3ad026f43159ed742fb2a39979, type: 3}
+      propertyPath: m_FalloffIntensity
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6458937511514547088, guid: a8cfbd3ad026f43159ed742fb2a39979, type: 3}
+      propertyPath: m_PointLightInnerRadius
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6458937511514547088, guid: a8cfbd3ad026f43159ed742fb2a39979, type: 3}
+      propertyPath: m_PointLightOuterRadius
+      value: 3.11
       objectReference: {fileID: 0}
     - target: {fileID: 8706636854226469705, guid: a8cfbd3ad026f43159ed742fb2a39979, type: 3}
       propertyPath: m_LocalPosition.x
