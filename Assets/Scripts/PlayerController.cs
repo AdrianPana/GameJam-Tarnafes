@@ -5,12 +5,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows;
 using UnityEngine.Tilemaps;
+using Unity.VisualScripting;
 
 
 public class PlayerController : MonoBehaviour
 {
     public Animator animator;
 
+    [SerializeField]
+    private GameObject deathSound;
     private bool isMoving, isAttacking;
     private Vector3 origPos, targetPos;
     private Vector2 lastInput;
@@ -42,6 +45,7 @@ public class PlayerController : MonoBehaviour
     }
     void Start()
     {
+        deathSound.SetActive(false);
         inputControls = new PlayerInputActions();
         inputControls.Enable();
         collisionChecker = this.GetComponentInChildren<CollisionChecker>();
@@ -238,10 +242,18 @@ public class PlayerController : MonoBehaviour
         if (hp <= 0)
         {
             Debug.Log("Player is dead");
-            Destroy(this.gameObject);
+            deathSound.SetActive(true);
+            animator.SetFloat("Dead", 1);
+            // wait for sound to finish
+            Invoke("DestroyPlayer", 1.0f);
+            
         }
+
     }
 
+    private void DestroyPlayer(){
+        Destroy(this.gameObject);
+    }
     public void TakeDamage() {
         hp--;
     }
