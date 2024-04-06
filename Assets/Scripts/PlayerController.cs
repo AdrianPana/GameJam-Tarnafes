@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
 {
     public Animator animator;
 
-    private bool isMoving;
+    private bool isMoving, isAttacking;
     private Vector3 origPos, targetPos;
     private Vector2 lastInput;
     private Vector2 direction;
@@ -53,9 +53,9 @@ public class PlayerController : MonoBehaviour
         if (input == Vector2.zero)
         {
             Animate(GetDirection(lastInput));
-            if (attackInput > 0)
+            if (attackInput > 0 && !isAttacking && !isMoving)
             {
-                Attack(GetDirection(lastInput));
+                StartCoroutine(Attack(lastInput));
             }
         }
         else
@@ -64,6 +64,16 @@ public class PlayerController : MonoBehaviour
         }
         Die();
 
+        if (!isAttacking)
+        {
+            TryToMove(direction);
+        }
+
+        
+    }
+
+    private void TryToMove(Vector2 input)
+    {
         ColliderSeek(direction);
 
         if (!isColliding)
@@ -77,13 +87,13 @@ public class PlayerController : MonoBehaviour
         if (isColliding && collisionChecker.isPushable)
         {
             IPushable box = null;
-            if (collisionChecker.collidedObject) 
+            if (collisionChecker.collidedObject)
                 box = collisionChecker.collidedObject.GetComponent<IPushable>();
             if (box != null)
             {
 
 
-                if (box.Push(direction, transform.position + 
+                if (box.Push(direction, transform.position +
                     new Vector3(direction.x, direction.y, 0)))
                 {
                     ColliderRetract();
@@ -142,10 +152,20 @@ public class PlayerController : MonoBehaviour
         return direction;
     }
 
-    public void Attack(Vector2 direction)
+    public IEnumerator Attack(Vector2 direction)
     {
-        var slash = Instantiate(slashPrefab, transform);
+        isAttacking = true;
+
+        var slash = Instantiate(slashPrefab);
         slash.transform.position = this.transform.position + new Vector3(direction.x, direction.y, 0);
+        yield return null;
+
+        Invoke("ResetState", slash.GetComponent<SlashScript>().animationTime);
+    }
+
+    public void ResetState()
+    {
+        isAttacking = false;
     }
 
     public void Move(Vector2 direction)

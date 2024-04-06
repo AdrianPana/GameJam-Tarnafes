@@ -6,7 +6,7 @@ public class SlashScript : MonoBehaviour
 {
 
     [SerializeField]
-    float animationTime = 1.0f;
+    public float animationTime = 1.0f;
     float animationTimer = 0.0f;
     // Start is called before the first frame update
     void Start()
