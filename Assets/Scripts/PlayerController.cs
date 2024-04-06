@@ -27,6 +27,10 @@ public class PlayerController : MonoBehaviour
     private float moveCooldown = 0.5f;
     private float moveCooldownTimer = 0.0f;
 
+    public GameObject slashPrefab;
+
+    public bool isColliding;
+
     public int hp = 3;
 
     void Start()
@@ -34,38 +38,79 @@ public class PlayerController : MonoBehaviour
         inputControls = new PlayerInputActions();
         inputControls.Enable();
         collisionChecker = this.GetComponentInChildren<CollisionChecker>();
+        collisionChecker.collided.AddListener(CheckerCollisionEnter);
+        collisionChecker.endCollided.AddListener(CheckerCollisionExit);
         tilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
+        lastInput = Vector2.down;
     }
 
     void Update()
     {
         Vector2 input = inputControls.BaseCharacter.Move.ReadValue<Vector2>();
+        float attackInput = inputControls.BaseCharacter.Attack.ReadValue<float>();
         direction = GetDirection(input);
 
-        Animate(direction);
+        if (input == Vector2.zero)
+        {
+            Animate(GetDirection(lastInput));
+            if (attackInput > 0)
+            {
+                Attack(GetDirection(lastInput));
+            }
+        }
+        else
+        {
+            Animate(direction);
+        }
         Die();
 
         ColliderSeek(direction);
 
-        if (!collisionChecker.getCollisionState() || collisionChecker.isPushable)
+        if (!isColliding)
+        {
+            if (collisionChecker.getCollisionState())
+            {
+                isColliding = true;
+            }
+        }
+
+        if (isColliding && collisionChecker.isPushable)
         {
             IPushable box = null;
             if (collisionChecker.collidedObject) 
                 box = collisionChecker.collidedObject.GetComponent<IPushable>();
             if (box != null)
             {
-                if (box.Push(direction))
+
+
+                if (box.Push(direction, transform.position + 
+                    new Vector3(direction.x, direction.y, 0)))
                 {
                     ColliderRetract();
                     Move(direction);
                 }
             }
-            else
-            {
-                ColliderRetract();
-                Move(direction);
-            }
         }
+
+        if (!isColliding)
+        {
+            ColliderRetract();
+            Move(direction);
+        }
+
+        if (input != Vector2.zero)
+        {
+            lastInput = input;
+        }
+    }
+
+    private void CheckerCollisionEnter()
+    {
+        isColliding = true;
+    }
+    private void CheckerCollisionExit()
+    {
+        isColliding = false;
     }
 
     private void ColliderSeek(Vector2 input)
@@ -95,6 +140,12 @@ public class PlayerController : MonoBehaviour
         }
 
         return direction;
+    }
+
+    public void Attack(Vector2 direction)
+    {
+        var slash = Instantiate(slashPrefab, transform);
+        slash.transform.position = this.transform.position + new Vector3(direction.x, direction.y, 0);
     }
 
     public void Move(Vector2 direction)
