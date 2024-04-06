@@ -128,4 +128,9 @@ public class EnemyController : MonoBehaviour
 
         isMoving = false;
     }
+
+    public void TakeDamage()
+    {
+        Destroy(this.gameObject);
+    }
 }

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IPushable
 {
-    bool Push(Vector2 direction);
+    bool Push(Vector2 direction, Vector2 destination);
 }
