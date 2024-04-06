@@ -7,10 +7,15 @@ using UnityEngine.Windows;
 using UnityEngine.Tilemaps;
 using Unity.VisualScripting;
 
-
 public class PlayerController : MonoBehaviour
 {
     public Animator animator;
+
+    private float invulnerabilityTime = 1.0f;
+
+    [SerializeField]
+    private bool isInvulnerable = false;
+    private float invulnerabilityTimer = 0f;
 
     [SerializeField]
     private GameObject deathSound;
@@ -57,7 +62,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        UpdateHearts();
         Vector2 input = inputControls.BaseCharacter.Move.ReadValue<Vector2>();
         float attackInput = inputControls.BaseCharacter.Attack.ReadValue<float>();
         direction = GetDirection(input);
@@ -79,6 +83,17 @@ public class PlayerController : MonoBehaviour
         if (!isAttacking)
         {
             TryToMove(direction);
+        }
+
+        if (isInvulnerable)
+        {
+            invulnerabilityTimer -= Time.deltaTime;
+            if (invulnerabilityTimer <= 0)
+            {
+                this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+                isInvulnerable = false;
+            }
+
         }
 
         
@@ -126,6 +141,19 @@ public class PlayerController : MonoBehaviour
         }
 
         Debug.Log(hp);
+    }
+
+
+    public void MakeInvulnerable()
+    {
+        isInvulnerable = true;
+        invulnerabilityTimer = invulnerabilityTime;
+        this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 0.5f, 0.5f, 1);
+    }
+
+    public bool IsInvulnerable()
+    {
+        return isInvulnerable;
     }
 
     private void CheckerCollisionEnter()
@@ -255,7 +283,12 @@ public class PlayerController : MonoBehaviour
         Destroy(this.gameObject);
     }
     public void TakeDamage() {
+        if (isInvulnerable)
+            return;
         hp--;
+        this.MakeInvulnerable();
+
+        UpdateHearts();
     }
 
     private void CenterOnCell()
@@ -263,7 +296,6 @@ public class PlayerController : MonoBehaviour
         //Vector3 worldPos = Camera.main.ScreenToWorldPoint(transform.position);
         Vector3Int cell = tilemap.WorldToCell(transform.position);
         Vector3 cellCenterPos = tilemap.GetCellCenterWorld(cell);
-
         transform.position = cellCenterPos;
     }
 
@@ -271,5 +303,7 @@ public class PlayerController : MonoBehaviour
     {
         HeartsScript hearts = GameObject.Find("Hearts").GetComponent<HeartsScript>();
         hearts.UpdateHearts(hp);
+        
+        
     }
 }
