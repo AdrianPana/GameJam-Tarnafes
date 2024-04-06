@@ -45,10 +45,11 @@ public class CollisionChecker : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Door")) 
+        if (other.gameObject.CompareTag("RoomDoor")) 
         {
-            Debug.Log("da");
-            other.gameObject.GetComponent<DoorScript>().EnterDoor();
+            // Debug.Log("da");
+            return;
+            // other.gameObject.GetComponent<DoorScript>().EnterDoor();
         }
         
         if (other.gameObject.CompareTag("Torch"))

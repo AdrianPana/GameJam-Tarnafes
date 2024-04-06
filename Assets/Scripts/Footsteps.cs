@@ -20,7 +20,7 @@ public class FootSteps: MonoBehaviour
 
     private void FootStep(Vector2 input)
     {
-        Debug.Log(input);
+        // Debug.Log(input);
         if (input.x != 0 || input.y != 0)
         {
             footsteps.SetActive(true);
