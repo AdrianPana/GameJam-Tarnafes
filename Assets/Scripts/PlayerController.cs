@@ -27,24 +27,19 @@ public class PlayerController : MonoBehaviour
     private Vector2 direction;
 
     PlayerInputActions inputControls;
-    private CollisionChecker collisionChecker;
+    public CollisionChecker collisionChecker;
     Vector2 currentDirection = Vector2.zero;
     Vector2 input;
     Tilemap tilemap;
 
     [SerializeField]
     private float timeToMove = 0.2f;
-    [SerializeField]
-    private float moveCooldown = 0.5f;
-    private float moveCooldownTimer = 0.0f;
 
     public GameObject slashPrefab;
 
     public bool isColliding;
 
     public static int hp = 3;
-    private int framesFromLastMove = 0;
-    private const int framesToWait = 20;
     public int timeAlive = 0;
 
     void Awake() 
