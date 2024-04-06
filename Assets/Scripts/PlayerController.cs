@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        UpdateHearts();
         Vector2 input = inputControls.BaseCharacter.Move.ReadValue<Vector2>();
         float attackInput = inputControls.BaseCharacter.Attack.ReadValue<float>();
         direction = GetDirection(input);
@@ -254,4 +255,9 @@ public class PlayerController : MonoBehaviour
         transform.position = cellCenterPos;
     }
 
+    private void UpdateHearts() 
+    {
+        HeartsScript hearts = GameObject.Find("Hearts").GetComponent<HeartsScript>();
+        hearts.UpdateHearts(hp);
+    }
 }
