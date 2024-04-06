@@ -24,7 +24,7 @@ public class RoomDoorController : MonoBehaviour
     }
 
     [SerializeField] private int id;
-    [SerializeField] private GameObject player;
+    private GameObject player;
 
     [SerializeField] private DoorPosition doorPosition;
     private Vector3 spawnPoint;
@@ -32,21 +32,25 @@ public class RoomDoorController : MonoBehaviour
     [SerializeField] private SceneType sceneType;
     [SerializeField] private Vector3 centerPosition;
 
+    [SerializeField] float posOfsset = 1.4f;
+
 
     void Start()
     {
+        player = GameObject.Find("Player");
+
         switch(doorPosition){
             case DoorPosition.Top:
-                spawnPoint = transform.position + new Vector3(0, -2.0f, 0);
+                spawnPoint = transform.position + new Vector3(0, -posOfsset, 0);
                 break;
             case DoorPosition.Bottom:
-                spawnPoint = transform.position + new Vector3(0, 2.0f, 0);
+                spawnPoint = transform.position + new Vector3(0, posOfsset, 0);
                 break;
             case DoorPosition.Left:
-                spawnPoint = transform.position + new Vector3(2.0f, 0, 0);
+                spawnPoint = transform.position + new Vector3(posOfsset, 0, 0);
                 break;
             case DoorPosition.Right:
-                spawnPoint = transform.position + new Vector3(-2.0f, 0, 0);
+                spawnPoint = transform.position + new Vector3(-posOfsset, 0, 0);
                 break;
             case DoorPosition.None:
                 spawnPoint = new Vector3(0, 0, 0);
@@ -82,6 +86,7 @@ public class RoomDoorController : MonoBehaviour
         Debug.Log(player.transform.position);
         
         player.transform.position = goToPosition;
+        player.GetComponent<PlayerController>().CenterOnCell();
         Debug.Log(player.transform.position);
         player.GetComponent<PlayerController>().isDisabled = false;
     }

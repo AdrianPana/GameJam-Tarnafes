@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3371330806822299990}
   - component: {fileID: 1433769009869070443}
   - component: {fileID: 1145268748994000040}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -211,6 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d47888aa1f30310059a165bfdaaffa78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isColliding: 0
   timeToMove: 0.2
 --- !u!1001 &1559985419375389861
 PrefabInstance:
