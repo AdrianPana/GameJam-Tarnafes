@@ -284,7 +284,7 @@ public class PlayerController : MonoBehaviour
         UpdateHearts();
     }
 
-    private void CenterOnCell()
+    public void CenterOnCell()
     {
         Vector3Int cell = tilemap.WorldToCell(transform.position);
         Vector3 cellCenterPos = tilemap.GetCellCenterWorld(cell);
