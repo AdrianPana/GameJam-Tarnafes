@@ -15,6 +15,7 @@ public class HeartsScript : MonoBehaviour
     {
         
     }
+    
 
     public void UpdateHearts(int hp) {
         for(int i = 0; i < 3; i++) {
