@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     static public bool hasTorch = false;
     private float invulnerabilityTime = 1.0f;
-
+    static public bool hasSword = false;
     [SerializeField]
     private bool isInvulnerable = false;
     private float invulnerabilityTimer = 0f;
@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
         if (input == Vector2.zero)
         {
             Animate(GetDirection(lastInput));
-            if (attackInput > 0 && !isAttacking && !isMoving)
+            if (attackInput > 0 && !isAttacking && !isMoving && hasSword)
             {
                 StartCoroutine(Attack(lastInput));
             }
