@@ -31,8 +31,15 @@ public class PlayerController : MonoBehaviour
 
     public bool isColliding;
 
-    public int hp = 3;
+    public static int hp = 3;
+    private int framesFromLastMove = 0;
+    private const int framesToWait = 20;
+    public int timeAlive = 0;
 
+    void Awake() 
+    {
+
+    }
     void Start()
     {
         inputControls = new PlayerInputActions();
@@ -46,6 +53,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        framesFromLastMove++;
+        if (framesFromLastMove == framesToWait) {
+            hp--;
+            framesFromLastMove = 0;
+        }
+
         Vector2 input = inputControls.BaseCharacter.Move.ReadValue<Vector2>();
         float attackInput = inputControls.BaseCharacter.Attack.ReadValue<float>();
         direction = GetDirection(input);
@@ -112,6 +125,8 @@ public class PlayerController : MonoBehaviour
         {
             lastInput = input;
         }
+
+        Debug.Log(hp);
     }
 
     private void CheckerCollisionEnter()
@@ -244,4 +259,5 @@ public class PlayerController : MonoBehaviour
 
         transform.position = cellCenterPos;
     }
+
 }

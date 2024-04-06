@@ -45,6 +45,12 @@ public class CollisionChecker : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.gameObject.CompareTag("Door")) 
+        {
+            Debug.Log("da");
+            other.gameObject.GetComponent<DoorScript>().EnterDoor();
+        }
+        
         if (other.gameObject.CompareTag("Pushable"))
         {
             isPushable = true;
@@ -65,6 +71,7 @@ public class CollisionChecker : MonoBehaviour
             inCollision = true;
             collided.Invoke();
         }
+
 
         collidesWith = other.gameObject;
     }
