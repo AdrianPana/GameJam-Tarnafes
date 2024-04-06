@@ -3,42 +3,105 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
 
 public class EnemyController : MonoBehaviour
 {
     private bool isMoving = false;
     private Vector3 origPos, targetPos;
 
-    private const int framesToWait = 20;
-    private int framesFromLastMove = 0;
+    private const float framesToWait = 0.5f;
+    private float framesFromLastMove = 0;
 
     // PlayerInputActions inputControls;
     private CollisionChecker collisionChecker;
+    public bool isColliding;
     Vector2 currentDirection = Vector2.zero;
 
     [SerializeField]
     private float timeToMove = 0.2f;
 
-    private bool checkCollidesWithPlayer()
-    {
-        GameObject collidesWith = collisionChecker.getCollidesWith();
-        if(collidesWith == null)
-        {
-            return false;
-        }
-        if (collidesWith.tag == "Player")
-        {
-            collidesWith.GetComponent<PlayerController>().TakeDamage();
-            return true;
-        }
-        return false;
-    }
+    Tilemap tilemap;
 
     void Start()
     {
         // inputControls = new PlayerInputActions();
         // inputControls.Enable();
         collisionChecker = this.GetComponentInChildren<CollisionChecker>();
+        collisionChecker.collided.AddListener(CheckerCollisionEnter);
+        collisionChecker.endCollided.AddListener(CheckerCollisionExit);
+        tilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
+    }
+
+
+    void Update()
+    {
+        // Vector2 input = inputControls.BaseCharacter.Move.ReadValue<Vector2>();
+
+        if (framesFromLastMove < framesToWait)
+        {
+            framesFromLastMove += Time.deltaTime;
+            return;
+        }
+        if (framesFromLastMove >= framesToWait)
+        {
+            framesFromLastMove = 0;
+        }
+
+        Vector2 input = randomDirection();
+
+        currentDirection = input;
+        this.transform.Find("CollisionChecker").transform.position = transform.position +
+                                            new Vector3(input.x, input.y, 0);
+
+        Invoke("TryToMove", 1.0f);
+
+    }
+
+    public void TryToMove()
+    {
+        if (!isColliding)
+        {
+            var newDirection = GetDirection(currentDirection);
+            StartCoroutine(MovePlayer(newDirection));
+        }
+    }
+
+    public Vector2 GetDirection(Vector2 input)
+    {
+        Vector2 direction = Vector2.zero;
+
+        if (input.x != 0)
+        {
+            direction = input.x > 0 ? Vector3.right : Vector3.left;
+        }
+        else if (input.y != 0)
+        {
+            direction = input.y > 0 ? Vector3.up : Vector3.down;
+        }
+
+        return direction;
+    }
+
+    private void ColliderSeek(Vector2 input)
+    {
+        this.transform.Find("CollisionChecker").transform.position = targetPos +
+                                    new Vector3(input.x, input.y, 0);
+        collisionChecker.CenterOnCell();
+    }
+
+    private void ColliderRetract()
+    {
+        this.transform.Find("CollisionChecker").transform.position = this.transform.position;
+        collisionChecker.CenterOnCell();
+    }
+    private void CheckerCollisionEnter()
+    {
+        isColliding = true;
+    }
+    private void CheckerCollisionExit()
+    {
+        isColliding = false;
     }
 
     private Vector2 randomDirection()
@@ -61,53 +124,6 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        // Vector2 input = inputControls.BaseCharacter.Move.ReadValue<Vector2>();
-
-        if (framesFromLastMove < framesToWait)
-        {
-            framesFromLastMove++;
-            return;
-        }
-        if (framesFromLastMove == framesToWait)
-        {
-            framesFromLastMove = 0;
-        }
-
-        Vector2 input = randomDirection();
-        if(checkCollidesWithPlayer())
-        {
-            Debug.Log("Collides with player");
-        }
-        //transform.position = transform.position + new Vector3(input.x, input.y, 0) * speed * Time.deltaTime;
-        currentDirection = input;
-        this.transform.Find("CollisionChecker").transform.position = targetPos +
-                                            new Vector3(input.x, input.y, 0);
-
-
-        if (!collisionChecker.getCollisionState())
-        {
-
-            if (currentDirection.y > 0 && !isMoving)
-            {
-                StartCoroutine(MovePlayer(Vector3.up));
-            }
-            if (currentDirection.y < 0 && !isMoving)
-            {
-                StartCoroutine(MovePlayer(Vector3.down));
-            }
-            if (currentDirection.x > 0 && !isMoving)
-            {
-                StartCoroutine(MovePlayer(Vector3.right));
-            }
-            if (currentDirection.x < 0 && !isMoving)
-            {
-                StartCoroutine(MovePlayer(Vector3.left));
-            }
-        }
-    }
-
     private IEnumerator MovePlayer(Vector3 direction)
     {
         isMoving = true;
@@ -126,11 +142,29 @@ public class EnemyController : MonoBehaviour
 
         transform.position = targetPos;
 
+        CenterOnCell();
+
         isMoving = false;
     }
 
     public void TakeDamage()
     {
         Destroy(this.gameObject);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<PlayerController>().TakeDamage();
+        }
+    }
+
+    private void CenterOnCell()
+    {
+        Vector3Int cell = tilemap.WorldToCell(transform.position);
+        Vector3 cellCenterPos = tilemap.GetCellCenterWorld(cell);
+
+        transform.position = cellCenterPos;
     }
 }

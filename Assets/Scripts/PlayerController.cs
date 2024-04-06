@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     PlayerInputActions inputControls;
     private CollisionChecker collisionChecker;
     Vector2 currentDirection = Vector2.zero;
+    Vector2 input;
     Tilemap tilemap;
 
     [SerializeField]
@@ -62,7 +63,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Vector2 input = inputControls.BaseCharacter.Move.ReadValue<Vector2>();
+        UpdateHearts();
+        input = inputControls.BaseCharacter.Move.ReadValue<Vector2>();
         float attackInput = inputControls.BaseCharacter.Attack.ReadValue<float>();
         direction = GetDirection(input);
 
@@ -82,24 +84,25 @@ public class PlayerController : MonoBehaviour
 
         if (!isAttacking)
         {
-            TryToMove(direction);
-        }
+            Invoke("TryToMove", 1.0f);
+            //TryToMove(direction);        }
 
-        if (isInvulnerable)
-        {
-            invulnerabilityTimer -= Time.deltaTime;
-            if (invulnerabilityTimer <= 0)
+            if (isInvulnerable)
             {
-                this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
-                isInvulnerable = false;
+                invulnerabilityTimer -= Time.deltaTime;
+                if (invulnerabilityTimer <= 0)
+                {
+                    this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+                    isInvulnerable = false;
+                }
+
             }
 
-        }
 
-        
+        }
     }
 
-    private void TryToMove(Vector2 input)
+    private void TryToMove()
     {
         ColliderSeek(direction);
 
@@ -215,21 +218,6 @@ public class PlayerController : MonoBehaviour
         if (isMoving)
             return;
 
-        //Vector2 direction = Vector2.zero;
-
-        ////if (input.y != 0 && input.y == lastInput.y && input.x != 0 && input.x != lastInput.x)
-        ////{
-        ////    direction = input.x > 0 ? Vector3.right : Vector3.left;
-        ////}
-        //if (input.x != 0)
-        //{
-        //    direction = input.x > 0 ? Vector3.right : Vector3.left;
-        //}
-        //else if (input.y != 0)
-        //{
-        //    direction = input.y > 0 ? Vector3.up : Vector3.down;
-        //}
-
         StartCoroutine(MovePlayer(direction));
     }
 
@@ -252,7 +240,7 @@ public class PlayerController : MonoBehaviour
 
         transform.position = targetPos;
 
-        //CenterOnCell();
+        CenterOnCell();
 
         isMoving = false;
     }
@@ -293,7 +281,6 @@ public class PlayerController : MonoBehaviour
 
     private void CenterOnCell()
     {
-        //Vector3 worldPos = Camera.main.ScreenToWorldPoint(transform.position);
         Vector3Int cell = tilemap.WorldToCell(transform.position);
         Vector3 cellCenterPos = tilemap.GetCellCenterWorld(cell);
         transform.position = cellCenterPos;
