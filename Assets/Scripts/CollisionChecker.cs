@@ -51,6 +51,11 @@ public class CollisionChecker : MonoBehaviour
             other.gameObject.GetComponent<DoorScript>().EnterDoor();
         }
         
+        if (other.gameObject.CompareTag("Torch"))
+        {
+            inCollision = false;
+            return;
+        }
         if (other.gameObject.CompareTag("Pushable"))
         {
             isPushable = true;

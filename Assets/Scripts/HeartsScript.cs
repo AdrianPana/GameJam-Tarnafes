@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class HeartsScript : MonoBehaviour
 {
-    [Header("Hearts")]
-    private float invulnerabilityTime = 1.0f;
-    private bool isInvulnerable = false;
-    private float invulnerabilityTimer = 0f;
-
     // Start is called before the first frame update
     void Start()
     {
