@@ -4,7 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Door
   - Pushable
+  - Enemy
+  - Ground
+  - Obstacle
+  - CollisionChecker
   layers:
   - Default
   - TransparentFX
@@ -12,8 +17,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Player
+  - CollisionChecker
   - 
   - 
   - 
@@ -47,4 +52,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 1714125291
+    locked: 0
+  - name: Inima
+    uniqueID: 3202975997
     locked: 0

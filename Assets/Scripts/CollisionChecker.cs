@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 using UnityEngine.Tilemaps;
+using UnityEngine.Events;
 
 public class CollisionChecker : MonoBehaviour
 {
@@ -13,7 +14,12 @@ public class CollisionChecker : MonoBehaviour
     public bool isPushable;
     [SerializeField]
     public GameObject collidedObject = null;
+    [SerializeField]
+    public bool isAttackable;
     Tilemap tilemap;
+
+    public UnityEvent collided;
+    public UnityEvent endCollided;
 
     public GameObject getCollidesWith()
     {
@@ -39,9 +45,20 @@ public class CollisionChecker : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.gameObject.CompareTag("Door")) 
+        {
+            Debug.Log("da");
+            other.gameObject.GetComponent<DoorScript>().EnterDoor();
+        }
+        
         if (other.gameObject.CompareTag("Pushable"))
         {
             isPushable = true;
+            collidedObject = other.gameObject;
+        }
+        else if (other.gameObject.CompareTag("Enemy"))
+        {
+            isAttackable = true;
             collidedObject = other.gameObject;
         }
         else
@@ -52,7 +69,9 @@ public class CollisionChecker : MonoBehaviour
         if (!other.gameObject.CompareTag("Player"))
         {
             inCollision = true;
+            collided.Invoke();
         }
+
 
         collidesWith = other.gameObject;
     }
@@ -82,6 +101,7 @@ public class CollisionChecker : MonoBehaviour
     {
         inCollision = false;
         collidesWith = null;
+        endCollided.Invoke();
     }
 
     public void CenterOnCell()

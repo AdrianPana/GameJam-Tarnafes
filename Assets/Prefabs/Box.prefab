@@ -146,6 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collisionCheckerPrefab: {fileID: 173760036394403873, guid: 2511eaf9f12bd274c94e48cf4ad9867f, type: 3}
   timeToMove: 0.15
+  isChecked: 0
 --- !u!1001 &8748690943548910126
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -164,7 +165,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 710164093762542251, guid: 2511eaf9f12bd274c94e48cf4ad9867f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 710164093762542251, guid: 2511eaf9f12bd274c94e48cf4ad9867f, type: 3}
       propertyPath: m_LocalPosition.z
