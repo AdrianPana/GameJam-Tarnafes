@@ -27,8 +27,15 @@ public class PlayerController : MonoBehaviour
     private float moveCooldown = 0.5f;
     private float moveCooldownTimer = 0.0f;
 
-    public int hp = 3;
+    public static int hp = 100;
+    private int framesFromLastMove = 0;
+    private const int framesToWait = 20;
+    public int timeAlive = 0;
 
+    void Awake() 
+    {
+
+    }
     void Start()
     {
         inputControls = new PlayerInputActions();
@@ -39,11 +46,19 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        framesFromLastMove++;
+        if (framesFromLastMove == framesToWait) {
+            hp--;
+            framesFromLastMove = 0;
+        }
+
         Vector2 input = inputControls.BaseCharacter.Move.ReadValue<Vector2>();
         direction = GetDirection(input);
 
         Animate(direction);
-        Die();
+        // Die();
+
+
 
         ColliderSeek(direction);
 
@@ -66,6 +81,8 @@ public class PlayerController : MonoBehaviour
                 Move(direction);
             }
         }
+
+        Debug.Log(hp);
     }
 
     private void ColliderSeek(Vector2 input)
@@ -173,4 +190,5 @@ public class PlayerController : MonoBehaviour
 
         transform.position = cellCenterPos;
     }
+
 }
