@@ -7,7 +7,6 @@ using UnityEngine.Tilemaps;
 
 public class EnemyController : MonoBehaviour
 {
-    private bool isMoving = false;
     private Vector3 origPos, targetPos;
 
     private const float framesToWait = 0.5f;
@@ -126,7 +125,6 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator MovePlayer(Vector3 direction)
     {
-        isMoving = true;
 
         float elapsedTime = 0;
 
@@ -144,7 +142,6 @@ public class EnemyController : MonoBehaviour
 
         CenterOnCell();
 
-        isMoving = false;
     }
 
     public void TakeDamage()
