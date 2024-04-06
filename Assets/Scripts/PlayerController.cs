@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        UpdateHearts();
         Vector2 input = inputControls.BaseCharacter.Move.ReadValue<Vector2>();
         direction = GetDirection(input);
 
@@ -172,5 +173,11 @@ public class PlayerController : MonoBehaviour
         Vector3 cellCenterPos = tilemap.GetCellCenterWorld(cell);
 
         transform.position = cellCenterPos;
+    }
+
+    private void UpdateHearts() 
+    {
+        HeartsScript hearts = GameObject.Find("Hearts").GetComponent<HeartsScript>();
+        hearts.UpdateHearts(hp);
     }
 }
