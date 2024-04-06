@@ -53,12 +53,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        framesFromLastMove++;
-        if (framesFromLastMove == framesToWait) {
-            hp--;
-            framesFromLastMove = 0;
-        }
-
         Vector2 input = inputControls.BaseCharacter.Move.ReadValue<Vector2>();
         float attackInput = inputControls.BaseCharacter.Attack.ReadValue<float>();
         direction = GetDirection(input);
