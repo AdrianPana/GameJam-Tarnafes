@@ -356,7 +356,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2011629834}
-  - {fileID: 1268768653}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &519420033
@@ -411,6 +410,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7878400523677814272, guid: 5dea4f5cbe54e021381a51e73d95c651, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+    - target: {fileID: 8234310192450850182, guid: 5dea4f5cbe54e021381a51e73d95c651, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
     - target: {fileID: 6796054912113502994, guid: 6b7ee22c8f5f1d240a124e065530255a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.5
@@ -451,14 +458,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7878400523677814272, guid: 5dea4f5cbe54e021381a51e73d95c651, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
-    - target: {fileID: 8234310192450850182, guid: 5dea4f5cbe54e021381a51e73d95c651, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 3251482488737856684, guid: 5dea4f5cbe54e021381a51e73d95c651, type: 3}
@@ -1186,7 +1185,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6458937511514547088, guid: a8cfbd3ad026f43159ed742fb2a39979, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8706636854226469705, guid: a8cfbd3ad026f43159ed742fb2a39979, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1359,3 +1358,5 @@ SceneRoots:
   - {fileID: 5304745331971818047}
   - {fileID: 940081973}
   - {fileID: 1906409144}
+  - {fileID: 519420032}
+  - {fileID: 668721211}
