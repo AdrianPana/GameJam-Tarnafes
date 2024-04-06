@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private GameObject deathSound;
-    private bool isMoving, isAttacking;
+    public bool isMoving, isAttacking, isDisabled;
     private Vector3 origPos, targetPos;
     private Vector2 lastInput;
     private Vector2 direction;
@@ -57,6 +57,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if(isDisabled)
+        {
+            return;
+        }
         UpdateHearts();
         Vector2 input = inputControls.BaseCharacter.Move.ReadValue<Vector2>();
         float attackInput = inputControls.BaseCharacter.Attack.ReadValue<float>();
@@ -124,8 +128,6 @@ public class PlayerController : MonoBehaviour
         {
             lastInput = input;
         }
-
-        Debug.Log(hp);
     }
 
     private void CheckerCollisionEnter()
@@ -246,6 +248,7 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("Dead", 1);
             // wait for sound to finish
             Invoke("DestroyPlayer", 1.0f);
+            isDisabled = true;
             
         }
 
