@@ -61,6 +61,11 @@ public class CollisionChecker : MonoBehaviour
             isAttackable = true;
             collidedObject = other.gameObject;
         }
+        else if (other.gameObject.CompareTag("Player"))
+        {
+            inCollision = false;
+            return;
+        }
         else
         {
             isPushable = false;
@@ -83,6 +88,11 @@ public class CollisionChecker : MonoBehaviour
             isPushable = true;
             collidedObject = other.gameObject;
         }
+        else if (other.gameObject.CompareTag("Player"))
+        {
+            inCollision = false;
+            return;
+        }
         else
         {
             isPushable = false;
@@ -93,6 +103,7 @@ public class CollisionChecker : MonoBehaviour
         if (!other.gameObject.CompareTag("Player"))
         {
             inCollision = true;
+            collided.Invoke();
         }
 
     }

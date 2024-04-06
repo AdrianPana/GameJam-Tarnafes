@@ -127,7 +127,6 @@ public class PlayerController : MonoBehaviour
             lastInput = input;
         }
 
-        Debug.Log(hp);
     }
 
     private void CheckerCollisionEnter()
@@ -228,7 +227,6 @@ public class PlayerController : MonoBehaviour
     {
         if (hp <= 0)
         {
-            Debug.Log("Player is dead");
             deathSound.SetActive(true);
             animator.SetFloat("Dead", 1);
             // wait for sound to finish

@@ -22,7 +22,6 @@ public class DoorScriptV2 : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         // Debug.Log(other.gameObject.tag);
         // Debug.Log(other.gameObject.name);
-        Debug.Log(other.gameObject.transform.parent.gameObject.name);
         if(other.gameObject.tag == "CollisionChecker"){
             // DontDestroyOnLoad(player);
             SceneManager.LoadScene(sceneName);
