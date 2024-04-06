@@ -23,6 +23,9 @@ public class EnemyController : MonoBehaviour
 
     Tilemap tilemap;
 
+    [SerializeField]
+    private bool moveable = true;
+
     void Start()
     {
         // inputControls = new PlayerInputActions();
@@ -48,13 +51,16 @@ public class EnemyController : MonoBehaviour
             framesFromLastMove = 0;
         }
 
-        Vector2 input = randomDirection();
+        if (moveable)
+        {
+            Vector2 input = randomDirection();
 
-        currentDirection = input;
-        this.transform.Find("CollisionChecker").transform.position = transform.position +
-                                            new Vector3(input.x, input.y, 0);
+            currentDirection = input;
+            this.transform.Find("CollisionChecker").transform.position = transform.position +
+                                                new Vector3(input.x, input.y, 0);
 
-        Invoke("TryToMove", 1.0f);
+            Invoke("TryToMove", 1.0f);            
+        }
 
     }
 
