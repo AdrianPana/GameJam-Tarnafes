@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2869365922486852740}
   - component: {fileID: 798046900505424543}
   - component: {fileID: 3019776420027494555}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -154,7 +154,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 2869365922486852740}
+  isInvulnerable: 0
   deathSound: {fileID: 3868429589168184626}
+  isMoving: 0
+  isAttacking: 0
+  isDisabled: 0
   timeToMove: 0.15
   moveCooldown: 0.5
   slashPrefab: {fileID: 444050464709355985, guid: 2e34db1af047dfd46b2d5bf93f39d2f4, type: 3}
@@ -311,7 +315,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6005020614201929521}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
   m_Name: 
@@ -343,7 +347,7 @@ MonoBehaviour:
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0.8
-  m_PointLightOuterRadius: 3.11
+  m_PointLightOuterRadius: 3.2
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
