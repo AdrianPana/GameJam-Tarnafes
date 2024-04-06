@@ -21,6 +21,7 @@ public class Inventory: MonoBehaviour
         {
             Debug.Log("Torch acquired");
             torch.SetActive(true);
+            GameObject.Find("Player").GetComponent<PlayerController>().MakeBrighterLight();
         }
     }
 
