@@ -10,7 +10,7 @@ using Unity.VisualScripting;
 public class PlayerController : MonoBehaviour
 {
     public Animator animator;
-
+    static public bool hasTorch = false;
     private float invulnerabilityTime = 1.0f;
 
     [SerializeField]
@@ -262,10 +262,9 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("Dead", 1);
             // wait for sound to finish
             Invoke("DestroyPlayer", 1.0f);
-            
         }
-
     }
+
 
     private void DestroyPlayer(){
         Destroy(this.gameObject);
@@ -290,7 +289,7 @@ public class PlayerController : MonoBehaviour
     {
         HeartsScript hearts = GameObject.Find("Hearts").GetComponent<HeartsScript>();
         hearts.UpdateHearts(hp);
-        
-        
     }
+
+    
 }
