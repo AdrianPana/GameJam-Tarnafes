@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
 {
     public Animator animator;
 
-    private bool isMoving;
+    private bool isMoving, isAttacking;
     private Vector3 origPos, targetPos;
     private Vector2 lastInput;
     private Vector2 direction;
@@ -27,7 +27,11 @@ public class PlayerController : MonoBehaviour
     private float moveCooldown = 0.5f;
     private float moveCooldownTimer = 0.0f;
 
-    public static int hp = 100;
+    public GameObject slashPrefab;
+
+    public bool isColliding;
+
+    public static int hp = 3;
     private int framesFromLastMove = 0;
     private const int framesToWait = 20;
     public int timeAlive = 0;
@@ -41,7 +45,10 @@ public class PlayerController : MonoBehaviour
         inputControls = new PlayerInputActions();
         inputControls.Enable();
         collisionChecker = this.GetComponentInChildren<CollisionChecker>();
+        collisionChecker.collided.AddListener(CheckerCollisionEnter);
+        collisionChecker.endCollided.AddListener(CheckerCollisionExit);
         tilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
+        lastInput = Vector2.down;
     }
 
     void Update()
@@ -53,36 +60,82 @@ public class PlayerController : MonoBehaviour
         }
 
         Vector2 input = inputControls.BaseCharacter.Move.ReadValue<Vector2>();
+        float attackInput = inputControls.BaseCharacter.Attack.ReadValue<float>();
         direction = GetDirection(input);
 
-        Animate(direction);
-        // Die();
+        if (input == Vector2.zero)
+        {
+            Animate(GetDirection(lastInput));
+            if (attackInput > 0 && !isAttacking && !isMoving)
+            {
+                StartCoroutine(Attack(lastInput));
+            }
+        }
+        else
+        {
+            Animate(direction);
+        }
+        Die();
 
+        if (!isAttacking)
+        {
+            TryToMove(direction);
+        }
 
+        
+    }
 
+    private void TryToMove(Vector2 input)
+    {
         ColliderSeek(direction);
 
-        if (!collisionChecker.getCollisionState() || collisionChecker.isPushable)
+        if (!isColliding)
+        {
+            if (collisionChecker.getCollisionState())
+            {
+                isColliding = true;
+            }
+        }
+
+        if (isColliding && collisionChecker.isPushable)
         {
             IPushable box = null;
-            if (collisionChecker.collidedObject) 
+            if (collisionChecker.collidedObject)
                 box = collisionChecker.collidedObject.GetComponent<IPushable>();
             if (box != null)
             {
-                if (box.Push(direction))
+
+
+                if (box.Push(direction, transform.position +
+                    new Vector3(direction.x, direction.y, 0)))
                 {
                     ColliderRetract();
                     Move(direction);
                 }
             }
-            else
-            {
-                ColliderRetract();
-                Move(direction);
-            }
+        }
+
+        if (!isColliding)
+        {
+            ColliderRetract();
+            Move(direction);
+        }
+
+        if (input != Vector2.zero)
+        {
+            lastInput = input;
         }
 
         Debug.Log(hp);
+    }
+
+    private void CheckerCollisionEnter()
+    {
+        isColliding = true;
+    }
+    private void CheckerCollisionExit()
+    {
+        isColliding = false;
     }
 
     private void ColliderSeek(Vector2 input)
@@ -112,6 +165,22 @@ public class PlayerController : MonoBehaviour
         }
 
         return direction;
+    }
+
+    public IEnumerator Attack(Vector2 direction)
+    {
+        isAttacking = true;
+
+        var slash = Instantiate(slashPrefab);
+        slash.transform.position = this.transform.position + new Vector3(direction.x, direction.y, 0);
+        yield return null;
+
+        Invoke("ResetState", slash.GetComponent<SlashScript>().animationTime);
+    }
+
+    public void ResetState()
+    {
+        isAttacking = false;
     }
 
     public void Move(Vector2 direction)

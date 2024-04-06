@@ -35,6 +35,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""b41c8007-fe10-4714-93e1-88999d31547c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -147,6 +156,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dc92839d-6743-460d-9df4-6807aec56212"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -162,6 +182,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // BaseCharacter
         m_BaseCharacter = asset.FindActionMap("BaseCharacter", throwIfNotFound: true);
         m_BaseCharacter_Move = m_BaseCharacter.FindAction("Move", throwIfNotFound: true);
+        m_BaseCharacter_Attack = m_BaseCharacter.FindAction("Attack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -224,11 +245,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_BaseCharacter;
     private List<IBaseCharacterActions> m_BaseCharacterActionsCallbackInterfaces = new List<IBaseCharacterActions>();
     private readonly InputAction m_BaseCharacter_Move;
+    private readonly InputAction m_BaseCharacter_Attack;
     public struct BaseCharacterActions
     {
         private @PlayerInputActions m_Wrapper;
         public BaseCharacterActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_BaseCharacter_Move;
+        public InputAction @Attack => m_Wrapper.m_BaseCharacter_Attack;
         public InputActionMap Get() { return m_Wrapper.m_BaseCharacter; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -241,6 +264,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
         }
 
         private void UnregisterCallbacks(IBaseCharacterActions instance)
@@ -248,6 +274,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
         }
 
         public void RemoveCallbacks(IBaseCharacterActions instance)
@@ -277,5 +306,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface IBaseCharacterActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
     }
 }

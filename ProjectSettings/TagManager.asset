@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Door
   - Pushable
+  - Enemy
   - Ground
   - Obstacle
   - CollisionChecker
