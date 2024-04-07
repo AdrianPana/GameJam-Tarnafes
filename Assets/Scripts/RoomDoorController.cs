@@ -8,6 +8,10 @@ public class RoomDoorController : MonoBehaviour
     [SerializeField] private RoomDoorController pairDoor;
     [SerializeField] private bool isDark = false;
 
+    [SerializeField] private AudioClip themeAudio;
+    [SerializeField] private AudioClip footstepAudio;
+
+
     public enum SceneType
     {
         Scene1,
@@ -61,11 +65,6 @@ public class RoomDoorController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        Debug.Log(player.transform.position);
-        
-    }
 
     private void OnTriggerStay2D(Collider2D other) {
 
@@ -75,7 +74,17 @@ public class RoomDoorController : MonoBehaviour
             player.GetComponent<PlayerController>().SetLight(pairDoor.isDark);
             MovePlayer(pairDoor.spawnPoint);    
             MoveCamera(pairDoor.centerPosition);
+
+            GameObject theme = GameObject.FindGameObjectWithTag("ThemeAudio");
+            Debug.Log("Theme: " + pairDoor.themeAudio);
+            theme.GetComponent<AudioSource>().clip = pairDoor.themeAudio;
+            
+            Debug.Log("Footstep: " + pairDoor.footstepAudio);
+            GameObject footstep = GameObject.FindGameObjectWithTag("Footstep");
+            footstep.GetComponent<AudioSource>().clip = pairDoor.footstepAudio;
         }
+
+
     }
 
     private void MoveCamera(Vector3 center){

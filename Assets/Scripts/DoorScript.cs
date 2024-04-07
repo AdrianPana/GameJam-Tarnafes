@@ -13,23 +13,11 @@ public class DoorScript : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
     void Start()
-    {   
+    {
     }
     // Update is called once per frame
     void Update()
     {
 
     }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        Debug.Log("Collided with player");
-            //EnterDoor();
-            Debug.Log(other.gameObject.tag);
-        if (other.gameObject.CompareTag("Player"))
-        {
-        }
-    }
-
-
 }
