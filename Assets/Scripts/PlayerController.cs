@@ -7,7 +7,10 @@ using UnityEngine.Windows;
 using UnityEngine.Tilemaps;
 using Unity.VisualScripting;
 using UnityEngine.Experimental.GlobalIllumination;
+using UnityEditor;
 using UnityEngine.SceneManagement;
+
+
 
 
 public class PlayerController : MonoBehaviour
@@ -19,9 +22,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private bool isInvulnerable = false;
     private float invulnerabilityTimer = 0f;
-
-    [SerializeField]
-    private GameObject deathSound;
+    static public bool isStrong;
+    [SerializeField] private GameObject deathSound;
     public bool isMoving, isAttacking, isDisabled;
     private Vector3 origPos, targetPos;
     private Vector2 lastInput;
