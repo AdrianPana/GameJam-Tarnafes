@@ -73,7 +73,7 @@ public class CollisionChecker : MonoBehaviour
             isPushable = false;
             collidedObject = null;
         }
-        if (!other.gameObject.CompareTag("Player"))
+        if (!other.gameObject.CompareTag("Player") && !other.gameObject.CompareTag("Pushable"))
         {
             inCollision = true;
             collided.Invoke();
