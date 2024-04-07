@@ -8,6 +8,9 @@ using UnityEngine.Tilemaps;
 using Unity.VisualScripting;
 using UnityEngine.Experimental.GlobalIllumination;
 using UnityEditor;
+using UnityEngine.SceneManagement;
+
+
 
 
 public class PlayerController : MonoBehaviour
@@ -222,6 +225,11 @@ public class PlayerController : MonoBehaviour
         isAttacking = false;
     }
 
+    void LoadMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
     public void Move(Vector2 direction)
     {
         if (isMoving)
@@ -270,7 +278,7 @@ public class PlayerController : MonoBehaviour
             deathSound.SetActive(true);
             animator.SetFloat("Dead", 1);
             // wait for sound to finish
-            Invoke("DestroyPlayer", 1.0f);
+            Invoke("LoadMainMenu", 1.5f);
             isDisabled = true;
 
         }
