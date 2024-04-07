@@ -83,14 +83,12 @@ public class RoomDoorController : MonoBehaviour
     }
 
     private void MovePlayer(Vector3 center){
-        Debug.Log("Moving player");
         Vector3 goToPosition = new Vector3(center.x, center.y, -1);
-        Debug.Log(player.transform.position);
         
         player.transform.position = goToPosition;
         player.GetComponent<PlayerController>().CenterOnCell();
-        Debug.Log(player.transform.position);
         player.GetComponent<PlayerController>().isDisabled = false;
+        //player.GetComponent<PlayerController>().collisionChecker.transform.position = player.transform.position;
     }
 
 
