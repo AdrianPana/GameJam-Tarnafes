@@ -12,11 +12,11 @@ TagManager:
   - CollisionChecker
   - RoomDoor
   - Torch
-  - Sword
   - Poem
   - ThemeAudio
   - Fooosteps
-  - Footsteps
+  - InventoryTorch
+  - Sword
   layers:
   - Default
   - TransparentFX

@@ -66,6 +66,12 @@ public class RoomDoorController : MonoBehaviour
 
     // Update is called once per frame
 
+    void Update()
+    {
+        
+    }
+
+
     private void OnTriggerStay2D(Collider2D other) {
 
         if(other.gameObject.CompareTag("Player")){
