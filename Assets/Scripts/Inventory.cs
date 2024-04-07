@@ -33,7 +33,6 @@ public class Inventory: MonoBehaviour
         {
             Debug.Log("Sword acquired");
             sword.SetActive(true);
-            GameObject.Find("Player").GetComponent<PlayerController>().MakeBrighterLight();
         }
     }
 

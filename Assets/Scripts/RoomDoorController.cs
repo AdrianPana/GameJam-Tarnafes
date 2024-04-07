@@ -76,12 +76,23 @@ public class RoomDoorController : MonoBehaviour
             MoveCamera(pairDoor.centerPosition);
 
             GameObject theme = GameObject.FindGameObjectWithTag("ThemeAudio");
-            Debug.Log("Theme: " + pairDoor.themeAudio);
-            theme.GetComponent<AudioSource>().clip = pairDoor.themeAudio;
+            if (pairDoor.themeAudio != null)
+            {
+                if (theme.GetComponent<AudioSource>().clip != pairDoor.themeAudio)
+                {
+                    theme.GetComponent<AudioSource>().clip = pairDoor.themeAudio;
+                    theme.GetComponent<AudioSource>().Play();
+                }
+                Debug.Log("Theme: " + pairDoor.themeAudio);
+            }
+
+            AudioSource footstep = player.gameObject.transform.Find("Footsteps").GetComponent<AudioSource>();//Debug.Log("Footstep: " + footstep);
+            if (pairDoor.themeAudio != null)
+            {
+                footstep.clip = pairDoor.footstepAudio;
+            }
             
-            Debug.Log("Footstep: " + pairDoor.footstepAudio);
-            GameObject footstep = GameObject.FindGameObjectWithTag("Footstep");
-            footstep.GetComponent<AudioSource>().clip = pairDoor.footstepAudio;
+            // Debug.Log("Footstep: " + pairDoor.footstepAudio);
         }
 
 

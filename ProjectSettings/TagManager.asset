@@ -16,6 +16,7 @@ TagManager:
   - Poem
   - ThemeAudio
   - Fooosteps
+  - Footsteps
   layers:
   - Default
   - TransparentFX
