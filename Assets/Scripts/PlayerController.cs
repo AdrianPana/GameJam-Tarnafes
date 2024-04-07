@@ -16,13 +16,13 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     public Animator animator;
-    static public bool hasTorch = false;
+    public bool hasTorch = false;
     private float invulnerabilityTime = 1.0f;
-    static public bool hasSword = false;
+    public bool hasSword = false;
     [SerializeField]
     private bool isInvulnerable = false;
     private float invulnerabilityTimer = 0f;
-    static public bool isStrong;
+    public bool isStrong;
     [SerializeField] private GameObject deathSound;
     public bool isMoving, isAttacking, isDisabled;
     private Vector3 origPos, targetPos;
@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
 
     public bool isColliding;
 
-    public static int hp = 3;
+    public int hp = 3;
     public int timeAlive = 0;
 
     void Awake() 
@@ -58,7 +58,8 @@ public class PlayerController : MonoBehaviour
         collisionChecker.collided.AddListener(CheckerCollisionEnter);
         collisionChecker.endCollided.AddListener(CheckerCollisionExit);
         tilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
-        lastInput = Vector2.down;
+        lastInput = Vector2.down; 
+
     }
 
     void Update()
@@ -276,6 +277,8 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Player is dead");
             deathSound.SetActive(true);
+            deathSound.GetComponentInParent<AudioSource>().Play();
+            Debug.Log(deathSound.GetComponentInParent<AudioSource>());
             animator.SetFloat("Dead", 1);
             // wait for sound to finish
             Invoke("LoadMainMenu", 1.5f);

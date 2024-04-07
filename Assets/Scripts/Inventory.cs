@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class Inventory: MonoBehaviour
 {
-    public static bool hasTorch = false;
-    public static bool hasSword = false;
-    public static bool isStrong = false;
+    public bool hasTorch = false;
+    public bool hasSword = false;
+    public bool isStrong = false;
 
     [SerializeField]
     private GameObject torch;
