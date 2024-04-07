@@ -7,6 +7,7 @@ public class Inventory: MonoBehaviour
 {
     public static bool hasTorch = false;
     public static bool hasSword = false;
+    public static bool isStrong = false;
 
     [SerializeField]
     private GameObject torch;
@@ -14,10 +15,14 @@ public class Inventory: MonoBehaviour
     [SerializeField]
     private GameObject sword;
 
+    [SerializeField]
+    private GameObject potion;
+
     void Start()
     {
         sword.SetActive(false);
         torch.SetActive(false);
+        potion.SetActive(false);
     }
 
     void Update()
@@ -33,6 +38,12 @@ public class Inventory: MonoBehaviour
         {
             Debug.Log("Sword acquired");
             sword.SetActive(true);
+        }
+
+        if (isStrong)
+        {
+            Debug.Log("Strong acquired");
+            potion.SetActive(true);
         }
     }
 

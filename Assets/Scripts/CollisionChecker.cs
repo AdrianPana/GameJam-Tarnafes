@@ -52,7 +52,7 @@ public class CollisionChecker : MonoBehaviour
             // other.gameObject.GetComponent<DoorScript>().EnterDoor();
         }
         
-        if (other.gameObject.CompareTag("Torch") || other.gameObject.CompareTag("Sword") || other.gameObject.CompareTag("Poem"))
+        if (other.gameObject.CompareTag("Torch") || other.gameObject.CompareTag("Sword") || other.gameObject.CompareTag("Poem") || other.gameObject.CompareTag("Potion"))
         {
             inCollision = false;
             return;
