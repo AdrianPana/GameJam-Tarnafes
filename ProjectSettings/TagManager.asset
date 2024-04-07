@@ -17,6 +17,8 @@ TagManager:
   - Fooosteps
   - InventoryTorch
   - Sword
+  - Footsteps
+  - Potion
   layers:
   - Default
   - TransparentFX
