@@ -297,6 +297,12 @@ public class PlayerController : MonoBehaviour
         hearts.UpdateHearts(hp);
     }
 
+    public void SetLight(bool isOn)
+    {
+        Transform light = transform.GetChild(1);
+        light.gameObject.SetActive(isOn);
+    }
+
     public void MakeBrighterLight() 
     {
         Transform light = transform.GetChild(1);
