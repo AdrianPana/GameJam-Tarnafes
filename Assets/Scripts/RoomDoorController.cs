@@ -6,6 +6,7 @@ using UnityEngine;
 public class RoomDoorController : MonoBehaviour
 {
     [SerializeField] private RoomDoorController pairDoor;
+    [SerializeField] private bool isDark = false;
 
     public enum SceneType
     {
@@ -71,6 +72,7 @@ public class RoomDoorController : MonoBehaviour
         if(other.gameObject.CompareTag("Player")){
             Debug.Log("Player entered door");
             player.GetComponent<PlayerController>().isDisabled = true;
+            player.GetComponent<PlayerController>().SetLight(pairDoor.isDark);
             MovePlayer(pairDoor.spawnPoint);    
             MoveCamera(pairDoor.centerPosition);
         }
