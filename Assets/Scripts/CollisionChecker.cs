@@ -57,10 +57,6 @@ public class CollisionChecker : MonoBehaviour
             inCollision = false;
             return;
         }
-        {
-            inCollision = false;
-            return;
-        }
         
         if (other.gameObject.CompareTag("Pushable"))
         {
