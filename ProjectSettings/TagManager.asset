@@ -12,6 +12,9 @@ TagManager:
   - CollisionChecker
   - RoomDoor
   - Torch
+  - InventoryTorch
+  - Sword
+  - Poem
   layers:
   - Default
   - TransparentFX

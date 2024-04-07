@@ -63,7 +63,6 @@ public class RoomDoorController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(player.transform.position);
         
     }
 
