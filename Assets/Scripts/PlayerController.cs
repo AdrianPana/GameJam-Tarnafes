@@ -202,6 +202,16 @@ public class PlayerController : MonoBehaviour
 
         var slash = Instantiate(slashPrefab);
         slash.transform.position = this.transform.position + new Vector3(direction.x, direction.y, 0);
+        float angle = 0.0f;
+        if (direction.x != 0)
+        {
+            angle = direction.x > 0 ? 270.0f : 90.0f;
+        }
+        else
+        {
+            angle = direction.y > 0 ? 0.0f : 180.0f;
+        }
+        slash.transform.Rotate(Vector3.forward, angle);
         yield return null;
 
         Invoke("ResetState", slash.GetComponent<SlashScript>().animationTime);
